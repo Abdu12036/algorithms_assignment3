@@ -112,4 +112,14 @@ public class MyHashTable <K, V>{
         return size;
     }
 
+    public int getChainLength(int index) {
+        HashNode<K, V> node = chainArray[index];
+        int count = 0;
+        while (node != null) {
+            count++;
+            node = node.next;
+        }
+        return count;
+    }
+
 }
