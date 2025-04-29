@@ -33,5 +33,83 @@ public class MyHashTable <K, V>{
     public void put(K key, V value){
         int index = hash(key);
         HashNode<K, V> head = chainArray[index];
+
+        while(head != null){
+            if(head.key.equals(key)){
+                head.value = value;
+                return;
+            }
+            head = head.next;
+        }
+
+        HashNode<K, V> newNode = new HashNode<>(key, value);
+        newNode.next = chainArray[index];
+        chainArray[index] = newNode;
+        size++;
     }
+
+    public V get(K key) {
+        int index = hash(key);
+        HashNode<K, V> head = chainArray[index];
+
+        while (head != null) {
+            if (head.key.equals(key)) {
+                return head.value;
+            }
+            head = head.next;
+        }
+        return null;
+    }
+
+    public V remove(K key) {
+        int index = hash(key);
+        HashNode<K, V> head = chainArray[index];
+        HashNode<K, V> prev = null;
+
+        while (head != null) {
+            if (head.key.equals(key)) {
+                if (prev == null) {
+                    chainArray[index] = head.next;
+                } else {
+                    prev.next = head.next;
+                }
+                size--;
+                return head.value;
+            }
+            prev = head;
+            head = head.next;
+        }
+        return null;
+    }
+
+    public boolean contains(V value) {
+        for (int i = 0; i < M; i++) {
+            HashNode<K, V> head = chainArray[i];
+            while (head != null) {
+                if (head.value.equals(value)) {
+                    return true;
+                }
+                head = head.next;
+            }
+        }
+        return false;
+    }
+
+    public K getKey(V value) {
+        for (int i = 0; i < M; i++) {
+            HashNode<K, V> head = chainArray[i];
+            while (head != null) {
+                if (head.value.equals(value)) {
+                    return head.key;
+                }
+                head = head.next;
+            }
+        }
+        return null;
+    }
+
+    public int size() {
+        return size;
+    }
+
 }
